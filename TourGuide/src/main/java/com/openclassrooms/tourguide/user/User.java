@@ -68,9 +68,12 @@ public class User {
 	public void clearVisitedLocations() {
 		visitedLocations.clear();
 	}
-	
-	public void addUserReward(UserReward userReward) {
-		if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+
+	//Correction du addUserReward car on compare des String avec des attractions donc on corrige cela pour avoir un ok au niveau du assertequals.
+	//Chercher ce que veut dire NoneMatch
+	public synchronized void addUserReward(UserReward userReward) {
+		if(userRewards.stream()
+				.noneMatch(r -> r.attraction.attractionName.equals(userReward.attraction.attractionName))) {
 			userRewards.add(userReward);
 		}
 	}
