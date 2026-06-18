@@ -1,5 +1,6 @@
 package com.openclassrooms.tourguide.service;
 
+import com.openclassrooms.tourguide.dto.NearbyAttractionsDTO;
 import com.openclassrooms.tourguide.helper.InternalTestHelper;
 import com.openclassrooms.tourguide.tracker.Tracker;
 import com.openclassrooms.tourguide.user.User;
@@ -105,6 +106,23 @@ public class TourGuideService {
 				.limit(5)
 				.collect(Collectors.toList());
 	}
+
+	public List<NearbyAttractionsDTO> getNearbyAttractionsDetails(User user, VisitedLocation visitedLocation){
+
+		return getNearByAttractions(visitedLocation)
+				.stream()
+				.map(attraction -> new NearbyAttractionsDTO(
+						attraction.attractionName,
+						attraction.latitude,
+						attraction.longitude,
+						visitedLocation.location.latitude,
+						visitedLocation.location.longitude,
+						rewardsService.getDistance(attraction, visitedLocation.location),
+						rewardsService.getRewardPoints(attraction, user)
+				))
+				.collect(Collectors.toList());
+	}
+
 
 	private void addShutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
