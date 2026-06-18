@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [master]
 
+defaults:
+  run:
+    working-directory: TourGuide
+
 #Ubuntu est la machine virtuelle sur laquelle GitHub Actions exécutera la pipeline.
 jobs:
   build:
